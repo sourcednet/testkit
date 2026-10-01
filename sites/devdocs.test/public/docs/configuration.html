@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Configuring Tidemark</title>
+</head>
+<body>
+<header><a href="/">Site header</a></header>
+<nav>Docs · Install · Configure</nav>
+<article>
+<h1>Configuring Tidemark</h1>
+<p>Tidemark reads its settings from <code>tidemark.toml</code> in the watched directory. Every setting has a default, so the file is optional. Settings given on the command line override the file.</p>
+<h2>Settings</h2>
+<table>
+<thead><tr><th>Setting</th><th>Default</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td>interval</td><td>1h</td><td>How often a running watcher rescans</td></tr>
+<tr><td>ignore</td><td>.git, node_modules</td><td>Paths never checksummed</td></tr>
+<tr><td>algorithm</td><td>sha256</td><td>Checksum algorithm: sha256 or blake3</td></tr>
+<tr><td>report</td><td>text</td><td>Report format: text or json</td></tr>
+</tbody>
+</table>
+<h2>Example</h2>
+<pre><code>interval = &quot;30m&quot;
+ignore = [&quot;.git&quot;, &quot;build&quot;, &quot;*.tmp&quot;]
+algorithm = &quot;blake3&quot;
+report = &quot;json&quot;</code></pre>
+<p>Changes to the file take effect on the next scan. There is no need to restart a running watcher.</p>
+</article>
+<footer>Site footer · All rights reserved</footer>
+</body>
+</html>

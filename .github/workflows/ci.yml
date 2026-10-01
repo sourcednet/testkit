@@ -1,0 +1,22 @@
+name: ci
+
+# Manual only for now; on push and pull request comes with Phase 12 (deployment hardening).
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      # The project and its siblings side by side, as go.mod's replace
+      # directives expect, until the siblings are published.
+      - uses: actions/checkout@v4
+        with: {path: testkit}
+      - uses: actions/checkout@v4
+        with: {repository: sourcednet/core, path: core}
+      - uses: actions/checkout@v4
+        with: {repository: sourcednet/publisher, path: publisher}
+      - uses: actions/setup-go@v5
+        with: {go-version-file: testkit/go.mod}
+      - run: make lint test build
+        working-directory: testkit

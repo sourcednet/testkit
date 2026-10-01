@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Installing Tidemark</title>
+</head>
+<body>
+<header><a href="/">Site header</a></header>
+<nav>Docs · Install · Configure</nav>
+<article>
+<h1>Installing Tidemark</h1>
+<p>Tidemark ships as a single binary for Linux, macOS, and Windows. Download the archive for your platform from the releases page, unpack it, and put the binary somewhere on your path. No other files are needed, and the tool never writes outside the directories you ask it to watch.</p>
+<h2>Verify the download</h2>
+<p>Always check the archive against the published checksum before running it. On Linux and macOS:</p>
+<pre><code>sha256sum tidemark-2.1.0-linux-amd64.tar.gz
+grep linux-amd64 SHA256SUMS</code></pre>
+<p>The two values must match exactly. If they don&#x27;t, delete the archive and download it again.</p>
+<h2>First run</h2>
+<p>Run <code>tidemark init</code> in the directory you want to watch. It records a checksum for every file and stores them in a hidden <code>.tidemark</code> folder next to them.</p>
+</article>
+<footer>Site footer · All rights reserved</footer>
+</body>
+</html>

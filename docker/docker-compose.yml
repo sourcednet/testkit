@@ -1,0 +1,59 @@
+# Local test network: the sample sites on fake .test domains over HTTPS.
+# Run docker/prepare.sh first. See docker/README.md.
+services:
+  sites:
+    image: caddy:2
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./.build:/srv:ro
+      - caddy-data:/data
+    ports:
+      - "8443:443"
+    networks:
+      testnet:
+        aliases:
+          - example-library.test
+          - daily-herald.test
+          - devdocs.test
+          - longform.test
+          - plain-site.test
+          - resolver.test
+
+  # A resolver syncing the sample publishers, served by Caddy at https://resolver.test.
+  # It trusts Caddy's local CA and allows private addresses: test network only.
+  resolver:
+    build: {context: ../.., dockerfile: resolver/Dockerfile}
+    command:
+      - serve
+      - -name=resolver.test
+      - -addr=:8080
+      - -data=/data
+      - -allow-private
+      - -ca=/caddy/caddy/pki/authorities/local/root.crt
+      - -publisher=example-library.test
+      - -publisher=daily-herald.test
+      - -publisher=devdocs.test
+      - -publisher=longform.test
+    restart: on-failure # Caddy creates its CA on first start; retry until it exists
+    volumes:
+      - caddy-data:/caddy:ro
+      - resolver-data:/data
+    networks: [testnet]
+    depends_on: [sites]
+
+  # The publisher's tool, on the same network, trusting Caddy's local CA via -ca.
+  # Usage: docker compose -f docker/docker-compose.yml run --rm publisher check -ca /caddy/caddy/pki/authorities/local/root.crt daily-herald.test
+  publisher:
+    build: {context: ../.., dockerfile: publisher/Dockerfile}
+    profiles: ["tools"]
+    volumes:
+      - caddy-data:/caddy:ro
+    networks: [testnet]
+    depends_on: [sites]
+
+networks:
+  testnet: {}
+
+volumes:
+  caddy-data: {}
+  resolver-data: {}

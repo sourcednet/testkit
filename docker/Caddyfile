@@ -1,0 +1,47 @@
+# Serves the sample sites prepared by prepare.sh, each on its own fake
+# domain, with certificates from Caddy's internal certificate authority.
+{
+	local_certs
+	skip_install_trust
+}
+
+(site) {
+	tls internal
+	encode zstd gzip
+	file_server
+	@records path /.well-known/sourced/records/* /.well-known/sourced/bundles/*
+	header @records Cache-Control "public, max-age=31536000, immutable"
+	header /.well-known/sourced/* Access-Control-Allow-Origin "*"
+}
+
+example-library.test {
+	root * /srv/example-library.test/public
+	import site
+}
+
+daily-herald.test {
+	root * /srv/daily-herald.test/public
+	import site
+}
+
+devdocs.test {
+	root * /srv/devdocs.test/public
+	import site
+}
+
+longform.test {
+	root * /srv/longform.test/public
+	import site
+}
+
+plain-site.test {
+	root * /srv/plain-site.test/public
+	import site
+}
+
+# The resolver, behind Caddy for TLS. See docker-compose.yml.
+resolver.test {
+	tls internal
+	encode zstd gzip
+	reverse_proxy resolver:8080
+}
