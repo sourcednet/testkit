@@ -1,6 +1,6 @@
 # Test network
 
-Run these commands from the testkit project root. The images build from `Dev/`, where the sibling projects are.
+Run these commands from the testkit project root, with the publisher and resolver projects checked out next to it (as in `Dev/`): their images build from there.
 
 Sample publishers on fake `.test` domains, for tests and manual experiments.
 

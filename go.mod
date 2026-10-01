@@ -2,14 +2,9 @@ module github.com/sourcednet/testkit
 
 go 1.24
 
-// Sibling projects, developed side by side in Dev/ until they are published.
-replace github.com/sourcednet/core => ../core
-
-replace github.com/sourcednet/publisher => ../publisher
-
 require (
-	github.com/sourcednet/core v0.0.0-00010101000000-000000000000
-	github.com/sourcednet/publisher v0.0.0-00010101000000-000000000000
+	github.com/sourcednet/core v0.1.0
+	github.com/sourcednet/publisher v0.1.0
 )
 
 require (

@@ -22,7 +22,7 @@ services:
   # A resolver syncing the sample publishers, served by Caddy at https://resolver.test.
   # It trusts Caddy's local CA and allows private addresses: test network only.
   resolver:
-    build: {context: ../.., dockerfile: resolver/Dockerfile}
+    build: ../../resolver
     command:
       - serve
       - -name=resolver.test
@@ -44,7 +44,7 @@ services:
   # The publisher's tool, on the same network, trusting Caddy's local CA via -ca.
   # Usage: docker compose -f docker/docker-compose.yml run --rm publisher check -ca /caddy/caddy/pki/authorities/local/root.crt daily-herald.test
   publisher:
-    build: {context: ../.., dockerfile: publisher/Dockerfile}
+    build: ../../publisher
     profiles: ["tools"]
     volumes:
       - caddy-data:/caddy:ro
