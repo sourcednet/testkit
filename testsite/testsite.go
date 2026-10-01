@@ -29,7 +29,7 @@ type Site struct {
 func New(t testing.TB, domain string) *Site {
 	t.Helper()
 	dir := t.TempDir()
-	c, err := publisher.Init(dir, domain, "public", T0)
+	c, err := publisher.Init(dir, domain, "public", "", T0)
 	if err != nil {
 		t.Fatal(err)
 	}
